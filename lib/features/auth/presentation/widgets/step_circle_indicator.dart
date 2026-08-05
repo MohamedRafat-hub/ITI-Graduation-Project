@@ -1,0 +1,39 @@
+﻿import 'package:flutter/material.dart';
+import 'package:graduation_project/core/theme/color_manager.dart';
+import 'package:graduation_project/core/theme/values_manager.dart';
+
+class StepCircleIndicator extends StatelessWidget {
+  const StepCircleIndicator({
+    super.key,
+    required this.isActive,
+    required this.isCompleted,
+    required this.number,
+  });
+  final bool isActive;
+  final bool isCompleted;
+  final int number;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: AppRadius.r16,
+      backgroundColor: (isActive || isCompleted)
+          ? ColorManager.primary
+          : ColorManager.primary.withValues(alpha: 0.15),
+      child: isCompleted
+          ? const Icon(
+              Icons.check,
+              color: ColorManager.white,
+              size: AppSize.s16,
+            )
+          : Text(
+              '$number',
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : ColorManager.primary.withValues(alpha: 0.5),
+              ),
+            ),
+    );
+  }
+}

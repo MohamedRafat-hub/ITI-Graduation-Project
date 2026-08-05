@@ -1,0 +1,21 @@
+﻿import 'package:flutter/material.dart';
+import 'package:graduation_project/core/theme/style_manager.dart';
+import 'package:graduation_project/core/theme/values_manager.dart';
+
+class MainTitle extends StatelessWidget {
+  const MainTitle({super.key, required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
+      child: Text(
+        title,
+        style: AppTextStyles.headlineMedium.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
