@@ -1,0 +1,5 @@
+class AppConstants {
+  AppConstants._();
+  static const String fontFamilyName = 'Cairo';
+  static const int splashDelay = 3500;
+}
