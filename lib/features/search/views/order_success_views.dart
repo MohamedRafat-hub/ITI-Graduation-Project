@@ -3,7 +3,6 @@ import 'package:graduation_project/features/search/views/orders_views.dart';
 
 class OrderSuccessView extends StatelessWidget {
   const OrderSuccessView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = const Color(0xFFE8614A);

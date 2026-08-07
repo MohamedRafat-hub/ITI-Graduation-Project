@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/features/search/views/order_success_views.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/features/search/presentation/cubit/shopping_cubit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class CheckoutView extends StatefulWidget {
   const CheckoutView({super.key});
 
@@ -142,7 +145,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       activeColor: primaryColor,
                       onChanged: (val) => setState(() => selectedPaymentMethod = val!),
                     ),
-                    const Icon(Icons.account_balance_wallet_outlined, color: Colors.grey),
+                     const Icon(Icons.account_balance_wallet_outlined, color: Colors.grey),
                     const SizedBox(width: 8),
                     const Text('Digital Wallet', style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
@@ -196,7 +199,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             ),
             const SizedBox(height: 24),
 
-            // Place Order Button
+
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -205,13 +208,30 @@ class _CheckoutViewState extends State<CheckoutView> {
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 ),
-                onPressed: () {
 
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const OrderSuccessView()),
-                  );
+
+                onPressed: () async {
+                  try {
+
+                    final user = FirebaseAuth.instance.currentUser;
+                    await FirebaseFirestore.instance.collection('orders').add({
+                      'userId': user?.uid,
+                      'total': 132.53,
+                      'createdAt': FieldValue.serverTimestamp(),
+                    });
+
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OrderSuccessView()),
+                    );
+                  } catch (e) {
+                    print("Error: $e");
+                  }
                 },
+
+
+
                 child: const Text(
                   'Place Order',
                   style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),

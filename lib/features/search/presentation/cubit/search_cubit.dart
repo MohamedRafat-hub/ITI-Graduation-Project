@@ -8,19 +8,11 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit(this.searchRepo) : super(SearchInitial());
 
   Future<void> search(String query) async {
-    if (query.trim().isEmpty) {
-      emit(SearchInitial());
-      return;
-    }
-
     emit(SearchLoading());
     try {
+
       final products = await searchRepo.searchProducts(query);
-      if (products.isEmpty) {
-        emit(SearchSuccess([]));
-      } else {
-        emit(SearchSuccess(products));
-      }
+      emit(SearchSuccess(products));
     } catch (e) {
       emit(SearchError(e.toString()));
     }

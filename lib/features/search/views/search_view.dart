@@ -1,5 +1,3 @@
-
-import 'package:dio/dio.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +16,7 @@ class SearchView extends StatelessWidget {
     return BlocProvider(
       create: (context) => SearchCubit(
         SearchRepo(
-          remoteDataSource: SearchRemoteDataSourceImpl(dio: Dio()),
+          remoteDataSource: SearchRemoteDataSourceImpl(),
         ),
       ),
       child: const SearchViewBody(),
@@ -41,6 +39,12 @@ class _SearchViewBodyState extends State<SearchViewBody> {
     'Leather wallet for him',
     'Coffee lover gifts under \$50',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<SearchCubit>().search('');
+  }
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -213,9 +217,18 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                                       top: Radius.circular(16),
                                     ),
                                   ),
+
                                   child: Image.network(
                                     product.thumbnail,
                                     fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: Colors.grey.shade200,
+                                        child: const Center(
+                                          child: Icon(Icons.card_giftcard, color: Color(0xFFE8614A), size: 40),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -298,7 +311,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                               ),
                               onTap: () {
                                 _searchController.text = searchItem;
-                                context.read<SearchCubit>().search('coffee');
+                                context.read<SearchCubit>().search(searchItem);
                               },
                             ),
                           ),

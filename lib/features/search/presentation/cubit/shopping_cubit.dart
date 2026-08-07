@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'shopping_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ShoppingCubit extends Cubit<ShoppingState> {
   ShoppingCubit() : super(ShoppingInitial()) {
-
     _emitUpdate();
   }
 
@@ -61,7 +62,6 @@ class ShoppingCubit extends Cubit<ShoppingState> {
   }
 
   void addItem(Map<String, dynamic> product) {
-
     int existingIndex = _cartItems.indexWhere((item) => item['id'] == product['id']);
     if (existingIndex != -1) {
       _cartItems[existingIndex]['quantity']++;
@@ -75,5 +75,38 @@ class ShoppingCubit extends Cubit<ShoppingState> {
       });
     }
     _emitUpdate();
+  }
+
+
+  void checkout() async {
+    if (_cartItems.isEmpty) return;
+
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      double subtotal = _cartItems.fold(
+        0,
+            (sum, item) => sum + (item['price'] * item['quantity']),
+      );
+      double total = subtotal + _shipping + _tax;
+
+
+      await FirebaseFirestore.instance.collection('orders').add({
+        'userId': user?.uid,
+        'items': _cartItems,
+        'subtotal': subtotal,
+        'shipping': _shipping,
+        'tax': _tax,
+        'total': total,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+
+      _cartItems.clear();
+      _emitUpdate();
+    } catch (e) {
+
+      print("Error: $e");
+    }
   }
 }
