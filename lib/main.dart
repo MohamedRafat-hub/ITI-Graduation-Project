@@ -9,9 +9,11 @@ import 'package:graduation_project/core/theme/theme_manager.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:graduation_project/core/utils/my_bloc_observer.dart';
 import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
+
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

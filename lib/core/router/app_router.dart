@@ -11,6 +11,9 @@ import 'package:graduation_project/core/utils/cached_data_shared_preferences.dar
 import 'package:graduation_project/features/auth/presentation/views/login_view.dart';
 import 'package:graduation_project/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/onboarding/presentation/view/onboarding_view.dart';
+import 'package:graduation_project/features/cart/presentation/views/cart_view.dart';
+import 'package:graduation_project/features/search/views/search_view.dart';
+
 class AppRouter {
   AppRouter._();
 
@@ -32,61 +35,58 @@ class AppRouter {
         name: RoutesManager.onboardingName,
         builder: (context, state) => const OnboardingView(),
       ),
-    GoRoute(
-  path: RoutesManager.loginPath,
-  name: RoutesManager.loginName,
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<AuthCubit>(),
-    child: const LoginView(),
-  ),
-),
-     GoRoute(
-  path: RoutesManager.signUpPath,
-  name: RoutesManager.signUpName,
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<AuthCubit>(),
-    child: const SignUpView(),
-  ),
-),
-  GoRoute(
+      GoRoute(
+        path: RoutesManager.loginPath,
+        name: RoutesManager.loginName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AuthCubit>(),
+          child: const LoginView(),
+        ),
+      ),
+      GoRoute(
+        path: RoutesManager.signUpPath,
+        name: RoutesManager.signUpName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AuthCubit>(),
+          child: const SignUpView(),
+        ),
+      ),
+      GoRoute(
         path: RoutesManager.homePath,
         name: RoutesManager.homeName,
         builder: (context, state) => const HomePage(),
       ),
-      // GoRoute(
-      //   path: RoutesManager.registerSuccessPath,
-      //   name: RoutesManager.registerSuccessName,
-      //   builder: (context, state) => const RegisterSuccessView(),
-      // ),
-      
-      // GoRoute(
-      //   path: RoutesManager.changePasswordPath,
-      //   name: RoutesManager.changePasswordName,
-      //   builder: (context, state) => const ChangePasswordView(),
-      // ),
+      GoRoute(
+        path: '/search',
+        builder: (context, state) => const SearchView(),
+      ),
+      GoRoute(
+        path: '/cart',
+        builder: (context, state) => const CartView(),
+      ),
     ],
   );
 
-  
+  static String? _authRedirect(BuildContext context, GoRouterState state) {
+    final isAuthenticated = FirebaseAuth.instance.currentUser != null;
 
-static String? _authRedirect(BuildContext context, GoRouterState state) {
-  final isAuthenticated = FirebaseAuth.instance.currentUser != null;
+    final isSplash = state.matchedLocation == RoutesManager.splashPath;
 
-  final isSplash = state.matchedLocation == RoutesManager.splashPath;
+    if (isSplash) return null;
 
-  if (isSplash) return null;
+    const publicRoutes = [
+      RoutesManager.onboardingPath,
+      RoutesManager.loginPath,
+      RoutesManager.signUpPath,
+      RoutesManager.registerSuccessPath,
+      '/search',
+      '/cart',
+    ];
 
-  const publicRoutes = [
-    RoutesManager.onboardingPath,
-    RoutesManager.loginPath,
-    RoutesManager.signUpPath,
-    RoutesManager.registerSuccessPath,
-  ];
+    if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
+      return RoutesManager.loginPath;
+    }
 
-  if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
-    return RoutesManager.loginPath;
+    return null;
   }
-
-  return null;
-}
 }
