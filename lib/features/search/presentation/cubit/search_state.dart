@@ -1,5 +1,5 @@
 import '../../data/models/product_model.dart';
-
+import 'package:graduation_project/features/search/presentation/cubit/search_cubit.dart';
 abstract class SearchState {}
 
 class SearchInitial extends SearchState {}

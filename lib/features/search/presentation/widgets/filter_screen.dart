@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/features/search/presentation/cubit/search_cubit.dart';
 
 class FilterScreen extends StatefulWidget {
   final Function(String category, double maxPrice, double minRating) onApplyFilters;
@@ -63,8 +66,6 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
             Text('\$${_maxPrice.round()}'),
             const Spacer(),
-
-
             Row(
               children: [
                 Expanded(
@@ -79,6 +80,8 @@ class _FilterScreenState extends State<FilterScreen> {
                         _selectedCategory = 'All';
                         _maxPrice = 250;
                       });
+                      BlocProvider.of<SearchCubit>(context).search("");
+                      Navigator.pop(context);
                     },
                     child: const Text(
                       'Reset',
@@ -99,8 +102,17 @@ class _FilterScreenState extends State<FilterScreen> {
                       Navigator.pop(context);
                       double ratingNum = _selectedRating == '3+' ? 3.0 : (_selectedRating == '4+' ? 4.0 : 0);
                       widget.onApplyFilters(_selectedCategory, _maxPrice, ratingNum);
+
+                      if (_selectedCategory == 'All') {
+                        BlocProvider.of<SearchCubit>(context).search("");
+                      } else {
+                        BlocProvider.of<SearchCubit>(context).searchByCategory(_selectedCategory);
+                      }
                     },
-                    child: const Text('Apply Filters', style: TextStyle(color: Colors.white, fontSize: 16)),
+                    child: const Text(
+                      'Apply Filters',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ],
@@ -111,3 +123,36 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
