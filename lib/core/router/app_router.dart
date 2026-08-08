@@ -10,6 +10,8 @@ import 'package:graduation_project/features/auth/presentation/views/sign_up.dart
 import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
 import 'package:graduation_project/features/auth/presentation/views/login_view.dart';
 import 'package:graduation_project/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:graduation_project/features/profile/presentation/views/profile_view.dart';
+import 'package:graduation_project/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:graduation_project/features/onboarding/presentation/view/onboarding_view.dart';
 class AppRouter {
   AppRouter._();
@@ -53,17 +55,30 @@ class AppRouter {
         name: RoutesManager.homeName,
         builder: (context, state) => const HomePage(),
       ),
-      // GoRoute(
-      //   path: RoutesManager.registerSuccessPath,
-      //   name: RoutesManager.registerSuccessName,
-      //   builder: (context, state) => const RegisterSuccessView(),
-      // ),
+
+     GoRoute(
+  path: RoutesManager.ProfilePath,
+  name: RoutesManager.profileName,
+  builder: (context, state) => MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => getIt<ProfileCubit>()..getProfile(),
+      ),
+      BlocProvider(
+        create: (_) => getIt<AuthCubit>(),
+      ),
+    ],
+    child: const ProfileView(),
+  ),
+),
       
       // GoRoute(
       //   path: RoutesManager.changePasswordPath,
       //   name: RoutesManager.changePasswordName,
       //   builder: (context, state) => const ChangePasswordView(),
       // ),
+
+
     ],
   );
 

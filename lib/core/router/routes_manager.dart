@@ -19,6 +19,9 @@ class RoutesManager {
   static const String homePath = '/home';
   static const String homeName = 'home';
 
+  static const String ProfilePath = '/profile';
+  static const String profileName = 'profile';
+
   static const String changePasswordPath = '/change_password';
   static const String changePasswordName = 'change_password';
 }
