@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +11,10 @@ import 'package:graduation_project/features/auth/presentation/views/sign_up.dart
 import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
 import 'package:graduation_project/features/auth/presentation/views/login_view.dart';
 import 'package:graduation_project/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:graduation_project/features/profile/presentation/views/profile_view.dart';
+import 'package:graduation_project/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:graduation_project/features/onboarding/presentation/view/onboarding_view.dart';
+
 class AppRouter {
   AppRouter._();
 
@@ -33,69 +36,64 @@ class AppRouter {
         name: RoutesManager.onboardingName,
         builder: (context, state) => const OnboardingView(),
       ),
-    GoRoute(
-  path: RoutesManager.loginPath,
-  name: RoutesManager.loginName,
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<AuthCubit>(),
-    child: const LoginView(),
-  ),
-),
-     GoRoute(
-  path: RoutesManager.signUpPath,
-  name: RoutesManager.signUpName,
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<AuthCubit>(),
-    child: const SignUpView(),
-  ),
-),
-  // GoRoute(
-  //       path: RoutesManager.homePath,
-  //       name: RoutesManager.homeName,
-  //       builder: (context, state) => const HomePage(),
-  //     ),
+      GoRoute(
+        path: RoutesManager.loginPath,
+        name: RoutesManager.loginName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AuthCubit>(),
+          child: const LoginView(),
+        ),
+      ),
+      GoRoute(
+        path: RoutesManager.signUpPath,
+        name: RoutesManager.signUpName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<AuthCubit>(),
+          child: const SignUpView(),
+        ),
+      ),
       GoRoute(
         path: RoutesManager.homeViewPath,
         name: RoutesManager.homeViewName,
         builder: (context, state) => const HomeView(),
       ),
-
-      // GoRoute(
-      //   path: RoutesManager.registerSuccessPath,
-      //   name: RoutesManager.registerSuccessName,
-      //   builder: (context, state) => const RegisterSuccessView(),
-      // ),
-      
-      // GoRoute(
-      //   path: RoutesManager.changePasswordPath,
-      //   name: RoutesManager.changePasswordName,
-      //   builder: (context, state) => const ChangePasswordView(),
-      // ),
+      GoRoute(
+        path: RoutesManager.ProfilePath,
+        name: RoutesManager.profileName,
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => getIt<ProfileCubit>()..getProfile(),
+            ),
+            BlocProvider(
+              create: (_) => getIt<AuthCubit>(),
+            ),
+          ],
+          child: const ProfileView(),
+        ),
+      ),
     ],
   );
 
-  
+  static String? _authRedirect(BuildContext context, GoRouterState state) {
+    final isAuthenticated = FirebaseAuth.instance.currentUser != null;
 
-static String? _authRedirect(BuildContext context, GoRouterState state) {
-  final isAuthenticated = FirebaseAuth.instance.currentUser != null;
+    final isSplash = state.matchedLocation == RoutesManager.splashPath;
 
-  final isSplash = state.matchedLocation == RoutesManager.splashPath;
+    if (isSplash) return null;
 
-  if (isSplash) return null;
+    const publicRoutes = [
+      RoutesManager.onboardingPath,
+      RoutesManager.loginPath,
+      RoutesManager.signUpPath,
+      RoutesManager.registerSuccessPath,
+      RoutesManager.homeViewPath,
+    ];
 
-  const publicRoutes = [
-    RoutesManager.onboardingPath,
-    RoutesManager.loginPath,
-    RoutesManager.signUpPath,
-    RoutesManager.registerSuccessPath,
-    RoutesManager.homeViewPath,
+    if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
+      return RoutesManager.loginPath;
+    }
 
-  ];
-
-  if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
-    return RoutesManager.loginPath;
+    return null;
   }
-
-  return null;
-}
 }

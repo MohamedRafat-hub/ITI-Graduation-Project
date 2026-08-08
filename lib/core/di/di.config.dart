@@ -24,6 +24,7 @@ import '../../features/auth/domain/usecases/login_usecase.dart' as _i188;
 import '../../features/auth/domain/usecases/logout_usecase.dart' as _i48;
 import '../../features/auth/domain/usecases/sign_up_use_case.dart' as _i1037;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+
 import '../../features/home/data/data_sources/categories_remote_data_source.dart'
     as _i810;
 import '../../features/home/data/data_sources/gifts_remote_data_source.dart'
@@ -38,6 +39,20 @@ import '../../features/home/domain/usecases/get_gifts_by_category_usecase.dart'
 import '../../features/home/domain/usecases/get_gifts_usecase.dart' as _i798;
 import '../../features/home/presentaion/cubit/gifts_cubit.dart' as _i106;
 import '../../features/home/presentaion/cubit/categoryCubit.dart' as _i692;
+
+import '../../features/profile/data/data_source/profile_remote.dart' as _i344;
+import '../../features/profile/data/data_source/profile_remote_impl.dart'
+    as _i592;
+import '../../features/profile/data/repo/profile_repo_impl.dart' as _i256;
+import '../../features/profile/domain/repo/profile_repo.dart' as _i364;
+import '../../features/profile/domain/usecases/get_profile_usecase.dart'
+    as _i965;
+import '../../features/profile/domain/usecases/update_profile_use_case.dart'
+    as _i540;
+import '../../features/profile/domain/usecases/update_profile_usecase.dart'
+    as _i478;
+import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i36;
+
 import 'njectable_module.dart' as _i813;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -59,12 +74,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i170.AuthRepository>(
       () => _i910.AuthRepositoryImpl(gh<_i25.AuthRemoteDataSource>()),
     );
+
+    // Home Dependencies
     gh.lazySingleton<_i847.GiftsRemoteDataSource>(
       () => _i847.GiftsRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
     gh.lazySingleton<_i810.HomeRemoteDataSource>(
       () => _i810.CategoriesRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
+
+    // Profile Dependencies
+    gh.lazySingleton<_i344.ProfileRemoteDataSource>(
+      () => _i592.ProfileRemoteDataSourceImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
+    gh.lazySingleton<_i364.ProfileRepository>(
+      () => _i256.ProfileRepositoryImpl(gh<_i344.ProfileRemoteDataSource>()),
+    );
+
     gh.factory<_i748.CurrentUserUseCase>(
       () => _i748.CurrentUserUseCase(gh<_i170.AuthRepository>()),
     );
@@ -77,12 +106,30 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1037.SignUpUseCase>(
       () => _i1037.SignUpUseCase(gh<_i170.AuthRepository>()),
     );
+
     gh.lazySingleton<_i171.CategoriesRepository>(
       () => _i940.CategoryRepositoryImpl(gh<_i810.HomeRemoteDataSource>()),
     );
     gh.lazySingleton<_i1027.GiftRepository>(
       () => _i622.GiftRepositoryImpl(gh<_i847.GiftsRemoteDataSource>()),
     );
+
+    gh.factory<_i965.GetProfileUseCase>(
+      () => _i965.GetProfileUseCase(gh<_i364.ProfileRepository>()),
+    );
+    gh.factory<_i540.UpdateProfileUseCase>(
+      () => _i540.UpdateProfileUseCase(gh<_i364.ProfileRepository>()),
+    );
+    gh.factory<_i478.UpdateProfileUseCase>(
+      () => _i478.UpdateProfileUseCase(gh<_i364.ProfileRepository>()),
+    );
+    gh.factory<_i36.ProfileCubit>(
+      () => _i36.ProfileCubit(
+        gh<_i965.GetProfileUseCase>(),
+        gh<_i540.UpdateProfileUseCase>(),
+      ),
+    );
+
     gh.factory<_i117.AuthCubit>(
       () => _i117.AuthCubit(
         gh<_i188.LoginUseCase>(),
