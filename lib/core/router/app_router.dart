@@ -3,17 +3,17 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graduation_project/core/di/di.dart';
-import 'package:graduation_project/features/home/home_demo.dart';
 import 'package:graduation_project/core/router/routes_manager.dart';
 import 'package:graduation_project/features/home/presentaion/views/home_view.dart';
 import 'package:graduation_project/features/splash/splash_view.dart';
 import 'package:graduation_project/features/auth/presentation/views/sign_up.dart';
-import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
-import 'package:graduation_project/features/auth/presentation/views/login_view.dart';
+import 'package0/graduation_project/features/auth/presentation/views/login_view.dart';
 import 'package:graduation_project/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/profile/presentation/views/profile_view.dart';
 import 'package:graduation_project/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:graduation_project/features/onboarding/presentation/view/onboarding_view.dart';
+import 'package:graduation_project/features/cart/presentation/views/cart_view.dart';
+import 'package:graduation_project/features/search/views/search_view.dart';
 
 class AppRouter {
   AppRouter._();
@@ -58,6 +58,14 @@ class AppRouter {
         builder: (context, state) => const HomeView(),
       ),
       GoRoute(
+        path: '/search',
+        builder: (context, state) => const SearchView(),
+      ),
+      GoRoute(
+        path: '/cart',
+        builder: (context, state) => const CartView(),
+      ),
+      GoRoute(
         path: RoutesManager.ProfilePath,
         name: RoutesManager.profileName,
         builder: (context, state) => MultiBlocProvider(
@@ -88,6 +96,8 @@ class AppRouter {
       RoutesManager.signUpPath,
       RoutesManager.registerSuccessPath,
       RoutesManager.homeViewPath,
+      '/search',
+      '/cart',
     ];
 
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
