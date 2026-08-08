@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'model/category_model.dart';
+import '../model/category_model.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<CategoryModel>> getCategories();
 }
 
+@LazySingleton(as: HomeRemoteDataSource)
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   final FirebaseFirestore firestore;
 
