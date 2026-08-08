@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graduation_project/core/di/di.dart';
 import 'package:graduation_project/features/home/home_demo.dart';
 import 'package:graduation_project/core/router/routes_manager.dart';
+import 'package:graduation_project/features/home/presentaion/views/home_view.dart';
 import 'package:graduation_project/features/splash/splash_view.dart';
 import 'package:graduation_project/features/auth/presentation/views/sign_up.dart';
 import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
@@ -48,11 +49,17 @@ class AppRouter {
     child: const SignUpView(),
   ),
 ),
-  GoRoute(
-        path: RoutesManager.homePath,
-        name: RoutesManager.homeName,
-        builder: (context, state) => const HomePage(),
+  // GoRoute(
+  //       path: RoutesManager.homePath,
+  //       name: RoutesManager.homeName,
+  //       builder: (context, state) => const HomePage(),
+  //     ),
+      GoRoute(
+        path: RoutesManager.homeViewPath,
+        name: RoutesManager.homeViewName,
+        builder: (context, state) => const HomeView(),
       ),
+
       // GoRoute(
       //   path: RoutesManager.registerSuccessPath,
       //   name: RoutesManager.registerSuccessName,
@@ -81,6 +88,8 @@ static String? _authRedirect(BuildContext context, GoRouterState state) {
     RoutesManager.loginPath,
     RoutesManager.signUpPath,
     RoutesManager.registerSuccessPath,
+    RoutesManager.homeViewPath,
+
   ];
 
   if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {

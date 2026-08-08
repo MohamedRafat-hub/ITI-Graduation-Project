@@ -1,18 +1,18 @@
 import '../../data/model/category_model.dart';
 
-abstract class HomeState {}
+abstract class CategoryState {}
 
-class HomeInitial extends HomeState {}
+class HomeInitial extends CategoryState {}
 
-class HomeLoading extends HomeState {}
+class CategoryLoading extends CategoryState {}
 
-class HomeSuccess extends HomeState {
+class CategorySuccess extends CategoryState {
   final List<CategoryModel> categories;
 
-  HomeSuccess(this.categories);
+  CategorySuccess(this.categories);
 }
 
-class HomeError extends HomeState {
+class HomeError extends CategoryState {
   final String message;
 
   HomeError(this.message);

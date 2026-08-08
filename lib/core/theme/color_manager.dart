@@ -38,4 +38,6 @@ class ColorManager {
   // Border / Divider
   static const Color border = grey300;
   static const Color divider = grey100;
+  //home
+  static const Color shadow = Color(0x14000000);
 }

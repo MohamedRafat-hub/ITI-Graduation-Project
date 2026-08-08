@@ -1,14 +1,14 @@
 import 'package:injectable/injectable.dart';
 
-import '../../domain/repo/home_repo.dart';
+import '../../domain/repo/categories_repo.dart';
 import '../data_sources/categories_remote_data_source.dart';
 import '../model/category_model.dart';
 
-@LazySingleton(as: HomeRepository)
-class HomeRepositoryImpl implements HomeRepository {
+@LazySingleton(as: CategoriesRepository)
+class CategoryRepositoryImpl implements CategoriesRepository {
   final HomeRemoteDataSource remoteDataSource;
 
-  HomeRepositoryImpl(this.remoteDataSource);
+  CategoryRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<List<CategoryModel>> getCategories() {

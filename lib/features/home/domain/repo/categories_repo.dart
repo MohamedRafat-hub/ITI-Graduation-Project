@@ -1,5 +1,5 @@
 import '../../data/model/category_model.dart';
 
-abstract class HomeRepository {
+abstract class CategoriesRepository {
   Future<List<CategoryModel>> getCategories();
 }
