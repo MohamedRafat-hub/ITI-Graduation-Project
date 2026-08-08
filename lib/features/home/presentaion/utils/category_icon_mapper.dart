@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 
-IconData getCategoryIcon(String iconName) {
-  switch (iconName) {
-    case 'cake':
+IconData getCategoryIcon(String icon) {
+  switch (icon) {
+    case '🎂':
       return Icons.cake;
-    case 'school':
+    case '🎓':
       return Icons.school;
-    case 'favorite':
+    case '💍':
       return Icons.favorite;
-    case 'card_giftcard':
+    case '🎁':
       return Icons.card_giftcard;
+    case '🥂':
+      return Icons.celebration;
+    case '❤️':
+      return Icons.favorite;
+    case '👔':
+      return Icons.man;
+    case '🌸':
+      return Icons.local_florist;
     default:
       return Icons.category;
   }

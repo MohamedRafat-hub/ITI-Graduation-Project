@@ -8,10 +8,10 @@ abstract class HomeRemoteDataSource {
 }
 
 @LazySingleton(as: HomeRemoteDataSource)
-class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
+class CategoriesRemoteDataSourceImpl implements HomeRemoteDataSource {
   final FirebaseFirestore firestore;
 
-  HomeRemoteDataSourceImpl(this.firestore);
+  CategoriesRemoteDataSourceImpl(this.firestore);
 
   @override
   Future<List<CategoryModel>> getCategories() async {
