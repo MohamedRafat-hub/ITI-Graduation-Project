@@ -1,7 +1,10 @@
+import 'package:graduation_project/send_gifts.dart';
+
 import 'firebase_options.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package0/flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:graduation_project/core/di/di.dart';
 import 'package:graduation_project/core/router/app_router.dart';
@@ -9,6 +12,8 @@ import 'package:graduation_project/core/theme/theme_manager.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:graduation_project/core/utils/my_bloc_observer.dart';
 import 'package:graduation_project/core/utils/cached_data_shared_preferences.dart';
+import 'package:graduation_project/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:graduation_project/features/profile/presentation/cubit/profile_cubit.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  // await seedCategories();
   await CacheService.cacheInitialization();
 
   configureDependencies();
@@ -47,11 +52,21 @@ class GiftMind extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'GiftMind',
-      routerConfig: AppRouter.router,
-      theme: AppTheme.light,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (_) => getIt<AuthCubit>(),
+        ),
+        BlocProvider<ProfileCubit>(
+          create: (_) => getIt<ProfileCubit>(),
+        ),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'GiftMind',
+        routerConfig: AppRouter.router,
+        theme: AppTheme.light,
+      ),
     );
   }
 }

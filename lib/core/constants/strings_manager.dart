@@ -16,7 +16,7 @@ class StringsManager {
 
   static const String onboarding3Title = 'Let AI Do the Hard Work';
   static const String onboarding3Body = 'Just describe the person — their age, passions, and the occasion. Our AI returns perfect gift ideas in seconds.';
-  
+
   // Login
   static const String loginWelcomeTitle = 'Welcome Back';
   static const String loginWelcomeSubtitle = 'Sign in to continue';
@@ -94,5 +94,28 @@ static const String changePasswordNewLabel = 'change_password_new_label';
 static const String changePasswordConfirmLabel = 'change_password_confirm_label';
 static const String changePasswordSubmit   = 'change_password_submit';
 static const String changePasswordSuccess  = 'change_password_success';
+// Home
+  static const String homeGreeting = 'Good Morning 👋';
+  static const String searchHint = 'Search gifts...';
+  static const String aiBannerTitle = 'Find the Perfect Gift';
+  static const String aiBannerBody =
+      'Let AI recommend the perfect gift based on your budget and occasion.';
+  static const String aiButton = 'Try AI Finder';
+  static const String categories = 'Categories';
+  static const String popularProducts = 'Popular Gifts';
+  static const String seeAll = 'See All';
+  //bottomNavigation
+  static const String home = 'Home';
+  static const String browse = 'Browse';
+  static const String aiFinder = 'AI Finder';
+  static const String wishlist = 'Wishlist';
+  static const String profile = 'Profile';
+
+  // Categories
+  static const String birthday = 'Birthday';
+  static const String graduation = 'Graduation';
+  static const String wedding = 'Wedding';
+  static const String gifts = 'Gifts';
 
 }
+
