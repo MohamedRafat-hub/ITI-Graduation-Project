@@ -103,11 +103,12 @@ Navigator.push(
                       const SizedBox(height: 12),
 
                       ProfileMenuItem(
-                        title: 'Wishlist',
-                        icon: Icons.favorite_border,
-                        onTap: () {},
-                      ),
-
+  title: 'Wishlist',
+  icon: Icons.favorite_border,
+  onTap: () {
+    context.pushNamed(RoutesManager.wishlistName);
+  },
+),
                       const SizedBox(height: 12),
 
                       ProfileMenuItem(

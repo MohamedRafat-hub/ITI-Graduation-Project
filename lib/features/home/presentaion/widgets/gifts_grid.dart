@@ -1,8 +1,8 @@
+import 'product_card.dart';
 import 'package:flutter/material.dart';
-
 import '../../data/model/gift_model.dart';
 import '../views/product_details_view.dart';
-import 'product_card.dart';
+
 
 class GiftsGrid extends StatelessWidget {
   final List<GiftModel> gifts;
@@ -30,6 +30,7 @@ class GiftsGrid extends StatelessWidget {
               image: gift.imageUrl,
               name: gift.name,
               price: gift.price,
+              id: gift.id,
               rating: gift.rating,
               oldPrice: gift.oldPrice,
 

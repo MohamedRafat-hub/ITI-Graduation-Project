@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import '../views/product_details_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/core/constants/strings_manager.dart';
 import 'package:graduation_project/core/theme/values_manager.dart';
-import 'package:graduation_project/features/home/presentaion/widgets/product_card.dart';
-import 'package:graduation_project/features/home/presentaion/widgets/section_title.dart';
+import 'package:graduation_project/core/constants/strings_manager.dart';
 import 'package:graduation_project/features/home/presentaion/cubit/gifts_cubit.dart';
 import 'package:graduation_project/features/home/presentaion/cubit/gifts_state.dart';
+import 'package:graduation_project/features/home/presentaion/widgets/product_card.dart';
+import 'package:graduation_project/features/home/presentaion/widgets/section_title.dart';
 
-import '../views/product_details_view.dart';
 
 class PopularProducts extends StatelessWidget {
   const PopularProducts({super.key});
@@ -63,8 +63,10 @@ class PopularProducts extends StatelessWidget {
                       image: gift.imageUrl,
                       name: gift.name,
                       price: gift.price,
+                      id: gift.id,
                       oldPrice: gift.oldPrice,
                       rating: gift.rating,
+                      
 
                       // 👇 لما ندوس على المنتج
                       onTap: () {

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/core/theme/color_manager.dart';
 import 'package:graduation_project/core/theme/style_manager.dart';
 import 'package:graduation_project/core/theme/values_manager.dart';
+import 'package:graduation_project/features/wishlist/domain/entity/wishlist_item.dart';
+import 'package:graduation_project/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
 class ProductCard extends StatefulWidget {
 final String image;
 final String name;
 final double price;
+final String id;
 final double? oldPrice;
 final double rating;
  bool isFavorite=false;
@@ -17,6 +21,7 @@ super.key,
 required this.image,
 required this.name,
 required this.price,
+required this.id,
 this.oldPrice,
 required this.rating,
 // this.isFavorite = false,
@@ -68,7 +73,7 @@ borderRadius: const BorderRadius.vertical(
 top: Radius.circular(AppRadius.r18),
 ),
 child: Hero(
-tag: widget.image,
+tag: 'product_${widget.id}',
 child: Image.network(
 widget.image,
 height: AppSize.s140,
@@ -95,10 +100,29 @@ Positioned(
 top: AppPadding.p10,
 right: AppPadding.p10,
 child: GestureDetector(
-onTap: () {
-setState(() {
-isFavorite = !isFavorite;
-});
+onTap: () async {
+  final item = WishlistItem(
+    id: widget.id,
+    title: widget.name,
+    image: widget.image,
+    price: widget.price,
+  );
+
+  if (isFavorite) {
+    await context
+        .read<WishlistCubit>()
+        .removeFromWishlist(widget.id);
+  } else {
+    await context
+        .read<WishlistCubit>()
+        .addToWishlist(item);
+  }
+
+  if (mounted) {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
 },
 child: Container(
 width: AppSize.s36,

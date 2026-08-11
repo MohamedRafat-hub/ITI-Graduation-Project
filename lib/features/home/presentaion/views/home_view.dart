@@ -1,19 +1,21 @@
+import '../cubit/gifts_cubit.dart';
+import '../widgets/ai_banner.dart';
+import '../cubit/categoryCubit.dart';
+import '../widgets/home_header.dart';
 import 'package:flutter/material.dart';
+import '../widgets/categories_list.dart';
+import '../widgets/popular_products.dart';
+import '../widgets/search_bar_widget.dart';
+import '../widgets/ bottom_navigation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graduation_project/core/di/di.dart';
-import 'package:graduation_project/core/theme/color_manager.dart';
-import '../../../../core/constants/strings_manager.dart';
 import '../../../../core/theme/values_manager.dart';
-import '../cubit/categoryCubit.dart';
-import '../cubit/gifts_cubit.dart';
+import '../../../../core/constants/strings_manager.dart';
+import 'package:graduation_project/core/theme/color_manager.dart';
+import 'package:graduation_project/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
-import '../widgets/ bottom_navigation.dart';
-import '../widgets/home_header.dart';
-import '../widgets/search_bar_widget.dart';
-import '../widgets/ai_banner.dart';
-import '../widgets/categories_list.dart';
-import '../widgets/popular_products.dart';
+
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -35,6 +37,9 @@ class HomeView extends StatelessWidget {
         BlocProvider(
           create: (_) => getIt<GiftsCubit>()..getGifts(),
         ),
+        BlocProvider(
+  create: (_) => getIt<WishlistCubit>()..getWishlist(),
+),
       ],
       child: Scaffold(
         backgroundColor: ColorManager.background,

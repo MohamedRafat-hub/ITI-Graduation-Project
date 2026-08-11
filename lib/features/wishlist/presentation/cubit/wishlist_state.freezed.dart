@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'profile_state.dart';
+part of 'wishlist_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,11 +13,11 @@ part of 'profile_state.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$ProfileState {
+mixin _$WishlistState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ProfileState);
+        (other.runtimeType == runtimeType && other is WishlistState);
   }
 
   @override
@@ -25,17 +25,17 @@ mixin _$ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState()';
+    return 'WishlistState()';
   }
 }
 
 /// @nodoc
-class $ProfileStateCopyWith<$Res> {
-  $ProfileStateCopyWith(ProfileState _, $Res Function(ProfileState) __);
+class $WishlistStateCopyWith<$Res> {
+  $WishlistStateCopyWith(WishlistState _, $Res Function(WishlistState) __);
 }
 
-/// Adds pattern-matching-related methods to [ProfileState].
-extension ProfileStatePatterns on ProfileState {
+/// Adds pattern-matching-related methods to [WishlistState].
+extension WishlistStatePatterns on WishlistState {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -53,7 +53,6 @@ extension ProfileStatePatterns on ProfileState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -65,8 +64,6 @@ extension ProfileStatePatterns on ProfileState {
         return loading(_that);
       case _Loaded() when loaded != null:
         return loaded(_that);
-      case _Updated() when updated != null:
-        return updated(_that);
       case _Error() when error != null:
         return error(_that);
       case _:
@@ -92,7 +89,6 @@ extension ProfileStatePatterns on ProfileState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
     required TResult Function(_Error value) error,
   }) {
     final _that = this;
@@ -103,8 +99,6 @@ extension ProfileStatePatterns on ProfileState {
         return loading(_that);
       case _Loaded():
         return loaded(_that);
-      case _Updated():
-        return updated(_that);
       case _Error():
         return error(_that);
       case _:
@@ -129,7 +123,6 @@ extension ProfileStatePatterns on ProfileState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
     TResult? Function(_Error value)? error,
   }) {
     final _that = this;
@@ -140,8 +133,6 @@ extension ProfileStatePatterns on ProfileState {
         return loading(_that);
       case _Loaded() when loaded != null:
         return loaded(_that);
-      case _Updated() when updated != null:
-        return updated(_that);
       case _Error() when error != null:
         return error(_that);
       case _:
@@ -165,8 +156,7 @@ extension ProfileStatePatterns on ProfileState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(ProfileEntity profile)? loaded,
-    TResult Function()? updated,
+    TResult Function(List<WishlistItem> items)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -177,9 +167,7 @@ extension ProfileStatePatterns on ProfileState {
       case _Loading() when loading != null:
         return loading();
       case _Loaded() when loaded != null:
-        return loaded(_that.profile);
-      case _Updated() when updated != null:
-        return updated();
+        return loaded(_that.items);
       case _Error() when error != null:
         return error(_that.message);
       case _:
@@ -204,8 +192,7 @@ extension ProfileStatePatterns on ProfileState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(ProfileEntity profile) loaded,
-    required TResult Function() updated,
+    required TResult Function(List<WishlistItem> items) loaded,
     required TResult Function(String message) error,
   }) {
     final _that = this;
@@ -215,9 +202,7 @@ extension ProfileStatePatterns on ProfileState {
       case _Loading():
         return loading();
       case _Loaded():
-        return loaded(_that.profile);
-      case _Updated():
-        return updated();
+        return loaded(_that.items);
       case _Error():
         return error(_that.message);
       case _:
@@ -241,8 +226,7 @@ extension ProfileStatePatterns on ProfileState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(ProfileEntity profile)? loaded,
-    TResult? Function()? updated,
+    TResult? Function(List<WishlistItem> items)? loaded,
     TResult? Function(String message)? error,
   }) {
     final _that = this;
@@ -252,9 +236,7 @@ extension ProfileStatePatterns on ProfileState {
       case _Loading() when loading != null:
         return loading();
       case _Loaded() when loaded != null:
-        return loaded(_that.profile);
-      case _Updated() when updated != null:
-        return updated();
+        return loaded(_that.items);
       case _Error() when error != null:
         return error(_that.message);
       case _:
@@ -265,7 +247,7 @@ extension ProfileStatePatterns on ProfileState {
 
 /// @nodoc
 
-class _Initial implements ProfileState {
+class _Initial implements WishlistState {
   const _Initial();
 
   @override
@@ -279,13 +261,13 @@ class _Initial implements ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState.initial()';
+    return 'WishlistState.initial()';
   }
 }
 
 /// @nodoc
 
-class _Loading implements ProfileState {
+class _Loading implements WishlistState {
   const _Loading();
 
   @override
@@ -299,18 +281,23 @@ class _Loading implements ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState.loading()';
+    return 'WishlistState.loading()';
   }
 }
 
 /// @nodoc
 
-class _Loaded implements ProfileState {
-  const _Loaded(this.profile);
+class _Loaded implements WishlistState {
+  const _Loaded(final List<WishlistItem> items) : _items = items;
 
-  final ProfileEntity profile;
+  final List<WishlistItem> _items;
+  List<WishlistItem> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
 
-  /// Create a copy of ProfileState
+  /// Create a copy of WishlistState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -322,25 +309,26 @@ class _Loaded implements ProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Loaded &&
-            (identical(other.profile, profile) || other.profile == profile));
+            const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, profile);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
 
   @override
   String toString() {
-    return 'ProfileState.loaded(profile: $profile)';
+    return 'WishlistState.loaded(items: $items)';
   }
 }
 
 /// @nodoc
 abstract mixin class _$LoadedCopyWith<$Res>
-    implements $ProfileStateCopyWith<$Res> {
+    implements $WishlistStateCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({ProfileEntity profile});
+  $Res call({List<WishlistItem> items});
 }
 
 /// @nodoc
@@ -350,49 +338,29 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
   final _Loaded _self;
   final $Res Function(_Loaded) _then;
 
-  /// Create a copy of ProfileState
+  /// Create a copy of WishlistState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? profile = null,
+    Object? items = null,
   }) {
     return _then(_Loaded(
-      null == profile
-          ? _self.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as ProfileEntity,
+      null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<WishlistItem>,
     ));
   }
 }
 
 /// @nodoc
 
-class _Updated implements ProfileState {
-  const _Updated();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Updated);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'ProfileState.updated()';
-  }
-}
-
-/// @nodoc
-
-class _Error implements ProfileState {
+class _Error implements WishlistState {
   const _Error(this.message);
 
   final String message;
 
-  /// Create a copy of ProfileState
+  /// Create a copy of WishlistState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
@@ -412,13 +380,13 @@ class _Error implements ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState.error(message: $message)';
+    return 'WishlistState.error(message: $message)';
   }
 }
 
 /// @nodoc
 abstract mixin class _$ErrorCopyWith<$Res>
-    implements $ProfileStateCopyWith<$Res> {
+    implements $WishlistStateCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) _then) =
       __$ErrorCopyWithImpl;
   @useResult
@@ -432,7 +400,7 @@ class __$ErrorCopyWithImpl<$Res> implements _$ErrorCopyWith<$Res> {
   final _Error _self;
   final $Res Function(_Error) _then;
 
-  /// Create a copy of ProfileState
+  /// Create a copy of WishlistState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
