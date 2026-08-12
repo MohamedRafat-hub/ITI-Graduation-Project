@@ -24,8 +24,11 @@ class RoutesManager {
 
   static const String changePasswordPath = '/change_password';
   static const String changePasswordName = 'change_password';
+  
   static const String homeViewPath = '/home_view';
   static const String homeViewName = 'home_view';
 
+  static const String wishlistPath = '/wishlist';
+static const String wishlistName = 'wishlist';
 
 }

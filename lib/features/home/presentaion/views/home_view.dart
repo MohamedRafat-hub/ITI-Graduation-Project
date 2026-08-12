@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:graduation_project/core/constants/strings_manager.dart';
+import 'package:graduation_project/core/di/di.dart';
+import 'package0graduation_project/core/theme/color_manager.dart';
+import 'package:graduation_project/core/theme/values_manager.dart';
+
 import 'package:graduation_project/features/aiFinder/presentation/views/gift_finder_input_page.dart';
 import 'package:graduation_project/features/cart/presentation/views/cart_view.dart';
 import 'package:graduation_project/features/profile/presentation/views/profile_view.dart';
 import 'package:graduation_project/features/search/views/search_view.dart';
+import 'package:graduation_project/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
-import '../../../../core/constants/strings_manager.dart';
-import '../../../../core/di/di.dart';
-import '../../../../core/theme/color_manager.dart';
-import '../../../../core/theme/values_manager.dart';
 import '../cubit/categoryCubit.dart';
 import '../cubit/gifts_cubit.dart';
 import '../widgets/ bottom_navigation.dart';
@@ -17,7 +20,6 @@ import '../widgets/ai_banner.dart';
 import '../widgets/categories_list.dart';
 import '../widgets/home_header.dart';
 import '../widgets/popular_products.dart';
-// lib/features/home/presentation/views/home_view.dart
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -35,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
       HomeContent(
         onAiBannerTap: () {
           setState(() {
-            _currentIndex = 2; // 👈 الانتقال للـ Tab رقم 2 (GiftFinderInputPage)
+            _currentIndex = 2; // الانتقال للـ Tab رقم 2 (GiftFinderInputPage)
           });
         },
       ),
@@ -81,6 +83,9 @@ class HomeContent extends StatelessWidget {
         BlocProvider(
           create: (_) => getIt<GiftsCubit>()..getGifts(),
         ),
+        BlocProvider(
+          create: (_) => getIt<WishlistCubit>()..getWishlist(),
+        ),
       ],
       child: Scaffold(
         backgroundColor: ColorManager.background,
@@ -93,7 +98,7 @@ class HomeContent extends StatelessWidget {
                   userName: userName,
                 ),
                 const SizedBox(height: AppSize.s10),
-                AiBanner(onTap: onAiBannerTap), // 👈 تمرير الـ Callback للـ Banner
+                AiBanner(onTap: onAiBannerTap),
                 const CategoriesList(),
                 const SizedBox(height: AppSize.s16),
                 const PopularProducts(),

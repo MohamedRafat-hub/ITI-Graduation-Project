@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/core/constants/strings_manager.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/theme/color_manager.dart';
+import 'package:graduation_project/core/router/routes_manager.dart';
+import 'package:graduation_project/core/constants/strings_manager.dart';
 
 class HomeBottomNavigation extends StatelessWidget {
   final int currentIndex;
@@ -24,6 +26,23 @@ class HomeBottomNavigation extends StatelessWidget {
       elevation: 0,
       showSelectedLabels: true,
       showUnselectedLabels: true,
+
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            context.goNamed(RoutesManager.homeName);
+            break;
+
+          case 3:
+            context.goNamed(RoutesManager.wishlistName);
+            break;
+
+          case 4:
+            context.goNamed(RoutesManager.profileName);
+            break;
+        }
+      },
+
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),

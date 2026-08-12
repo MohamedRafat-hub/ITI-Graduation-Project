@@ -12,7 +12,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
-import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
+import 'package0google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/aiFinder/data/data_sources/ai_remote_data_source.dart'
@@ -61,7 +61,18 @@ import '../../features/profile/domain/usecases/update_profile_use_case.dart'
 import '../../features/profile/domain/usecases/update_profile_usecase.dart'
     as _i478;
 import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i36;
-import 'njectable_module.dart' as _i813;
+import '../../features/wishlist/data/datasource/wishlist_remote.dart' as _i522;
+import '../../features/wishlist/data/datasource/wishlist_remote_impl.dart'
+    as _i38;
+import '../../features/wishlist/data/repo/wishlist_repo_impl.dart' as _i728;
+import '../../features/wishlist/domain/repo/wishlist_repo.dart' as _i518;
+import '../../features/wishlist/domain/usecase/add_to_wishlist.dart' as _i436;
+import '../../features/wishlist/domain/usecase/get_wishlist.dart' as _i516;
+import '../../features/wishlist/domain/usecase/remove_from_wishlist.dart'
+    as _i209;
+import '../../features/wishlist/presentation/cubit/wishlist_cubit.dart'
+    as _i692;
+import 'injectable_module.dart' as _i813;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -84,6 +95,11 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i59.FirebaseAuth>(),
               gh<_i974.FirebaseFirestore>(),
             ));
+    gh.lazySingleton<_i522.WishlistRemoteDataSource>(
+        () => _i38.WishlistRemoteDataSourceImpl(
+              gh<_i974.FirebaseFirestore>(),
+              gh<_i59.FirebaseAuth>(),
+            ));
     gh.lazySingleton<_i128.AiRemoteDataSource>(
         () => _i128.AiRemoteDataSourceImpl(gh<_i656.GenerativeModel>()));
     gh.lazySingleton<_i170.AuthRepository>(
@@ -99,8 +115,16 @@ extension GetItInjectableX on _i174.GetIt {
         _i810.CategoriesRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i364.ProfileRepository>(
         () => _i256.ProfileRepositoryImpl(gh<_i344.ProfileRemoteDataSource>()));
+    gh.lazySingleton<_i518.WishlistRepository>(() =>
+        _i728.WishlistRepositoryImpl(gh<_i522.WishlistRemoteDataSource>()));
     gh.lazySingleton<_i762.AiRecommendationRepository>(() =>
         _i193.AiRecommendationRepositoryImpl(gh<_i128.AiRemoteDataSource>()));
+    gh.factory<_i436.AddToWishlistUseCase>(
+        () => _i436.AddToWishlistUseCase(gh<_i518.WishlistRepository>()));
+    gh.factory<_i516.GetWishlistUseCase>(
+        () => _i516.GetWishlistUseCase(gh<_i518.WishlistRepository>()));
+    gh.factory<_i209.RemoveFromWishlistUseCase>(
+        () => _i209.RemoveFromWishlistUseCase(gh<_i518.WishlistRepository>()));
     gh.factory<_i748.CurrentUserUseCase>(
         () => _i748.CurrentUserUseCase(gh<_i170.AuthRepository>()));
     gh.factory<_i188.LoginUseCase>(
@@ -126,6 +150,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i940.CategoryRepositoryImpl(gh<_i810.HomeRemoteDataSource>()));
     gh.lazySingleton<_i1027.GiftRepository>(
         () => _i622.GiftRepositoryImpl(gh<_i847.GiftsRemoteDataSource>()));
+    gh.factory<_i692.WishlistCubit>(() => _i692.WishlistCubit(
+          gh<_i516.GetWishlistUseCase>(),
+          gh<_i436.AddToWishlistUseCase>(),
+          gh<_i209.RemoveFromWishlistUseCase>(),
+        ));
     gh.factory<_i117.AuthCubit>(() => _i117.AuthCubit(
           gh<_i188.LoginUseCase>(),
           gh<_i1037.SignUpUseCase>(),

@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/core/theme/color_manager.dart';
 import 'package:graduation_project/core/theme/style_manager.dart';
 import 'package:graduation_project/core/theme/values_manager.dart';
+import 'package:graduation_project/features/wishlist/domain/entity/wishlist_item.dart';
+import 'package:graduation_project/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
 class ProductCard extends StatefulWidget {
+  final String id;
   final String image;
   final String name;
   final double price;
   final double? oldPrice;
   final double rating;
-  bool isFavorite = false;
+  final bool isFavorite;
   final VoidCallback? onTap;
 
-  ProductCard({
+  const ProductCard({
     super.key,
+    required this.id,
     required this.image,
     required this.name,
     required this.price,
     this.oldPrice,
     required this.rating,
-// this.isFavorite = false,
+    this.isFavorite = false,
     this.onTap,
   });
 
@@ -62,42 +67,61 @@ class _ProductCardState extends State<ProductCard> {
             /// Product Image
             Stack(
               children: [
-        ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(AppRadius.r18),
-      ),
-      child: Hero(
-        tag: '${widget.name}_${widget.image}', // 👈 حل المشكلة: دمج الاسم مع الصورة يضمن Unique Tag
-        child: Image.network(
-          widget.image,
-          height: AppSize.s140,
-          width: double.infinity,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              height: AppSize.s170,
-              color: ColorManager.grey100,
-              child: const Center(
-                child: Icon(
-                  Icons.image_not_supported_outlined,
-                  color: ColorManager.grey500,
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppRadius.r18),
+                  ),
+                  child: Hero(
+                    tag: 'product_${widget.id}_${widget.name}',
+                    child: Image.network(
+                      widget.image,
+                      height: AppSize.s140,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: AppSize.s170,
+                          color: ColorManager.grey100,
+                          child: const Center(
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: ColorManager.grey500,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-      ),
-    ),
 
                 /// Favorite Button
                 Positioned(
                   top: AppPadding.p10,
                   right: AppPadding.p10,
                   child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
+                    onTap: () async {
+                      final item = WishlistItem(
+                        id: widget.id,
+                        title: widget.name,
+                        image: widget.image,
+                        price: widget.price,
+                      );
+
+                      if (isFavorite) {
+                        await context
+                            .read<WishlistCubit>()
+                            .removeFromWishlist(widget.id);
+                      } else {
+                        await context
+                            .read<WishlistCubit>()
+                            .addToWishlist(item);
+                      }
+
+                      if (mounted) {
+                        setState(() {
+                          isFavorite = !isFavorite;
+                        });
+                      }
                     },
                     child: Container(
                       width: AppSize.s36,
@@ -107,7 +131,9 @@ class _ProductCardState extends State<ProductCard> {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color: isFavorite
                             ? ColorManager.primary
                             : ColorManager.grey500,
