@@ -5,12 +5,20 @@ import 'package:graduation_project/core/router/routes_manager.dart';
 import 'package:graduation_project/core/constants/strings_manager.dart';
 
 class HomeBottomNavigation extends StatelessWidget {
-  const HomeBottomNavigation({super.key});
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const HomeBottomNavigation({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: 0,
+      currentIndex: currentIndex,
+      onTap: onTap,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: ColorManager.primary,
       unselectedItemColor: ColorManager.textSecondary,
@@ -42,8 +50,8 @@ class HomeBottomNavigation extends StatelessWidget {
           label: StringsManager.home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.grid_view_outlined),
-          activeIcon: Icon(Icons.grid_view),
+          icon: Icon(Icons.search_outlined),
+          activeIcon: Icon(Icons.search),
           label: StringsManager.browse,
         ),
         BottomNavigationBarItem(
@@ -52,8 +60,8 @@ class HomeBottomNavigation extends StatelessWidget {
           label: StringsManager.aiFinder,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          activeIcon: Icon(Icons.favorite),
+          icon: Icon(Icons.shopping_cart_outlined),
+          activeIcon: Icon(Icons.shopping_cart),
           label: StringsManager.wishlist,
         ),
         BottomNavigationBarItem(
