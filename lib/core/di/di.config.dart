@@ -12,9 +12,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
-import 'package0google_generative_ai/google_generative_ai.dart' as _i656;
+import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/ai_catalog_matcher/data/datasources/catalog_products_remote_data_source.dart'
+    as _i854;
+import '../../features/ai_catalog_matcher/data/repositories/catalog_matcher_repository_impl.dart'
+    as _i675;
+import '../../features/ai_catalog_matcher/domain/repositories/catalog_matcher_repository.dart'
+    as _i916;
+import '../../features/ai_catalog_matcher/domain/usecases/match_gift_recommendations_usecase.dart'
+    as _i1025;
+import '../../features/ai_catalog_matcher/presentation/cubit/catalog_matcher_cubit.dart'
+    as _i431;
 import '../../features/aiFinder/data/data_sources/ai_remote_data_source.dart'
     as _i128;
 import '../../features/aiFinder/data/repos/ai_recommendation_repo_impl.dart'
@@ -72,7 +82,7 @@ import '../../features/wishlist/domain/usecase/remove_from_wishlist.dart'
     as _i209;
 import '../../features/wishlist/presentation/cubit/wishlist_cubit.dart'
     as _i692;
-import 'injectable_module.dart' as _i813;
+import 'njectable_module.dart' as _i813;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -95,13 +105,13 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i59.FirebaseAuth>(),
               gh<_i974.FirebaseFirestore>(),
             ));
+    gh.lazySingleton<_i128.AiRemoteDataSource>(
+        () => _i128.AiRemoteDataSourceImpl(gh<_i656.GenerativeModel>()));
     gh.lazySingleton<_i522.WishlistRemoteDataSource>(
         () => _i38.WishlistRemoteDataSourceImpl(
               gh<_i974.FirebaseFirestore>(),
               gh<_i59.FirebaseAuth>(),
             ));
-    gh.lazySingleton<_i128.AiRemoteDataSource>(
-        () => _i128.AiRemoteDataSourceImpl(gh<_i656.GenerativeModel>()));
     gh.lazySingleton<_i170.AuthRepository>(
         () => _i910.AuthRepositoryImpl(gh<_i25.AuthRemoteDataSource>()));
     gh.lazySingleton<_i344.ProfileRemoteDataSource>(
@@ -109,16 +119,22 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i974.FirebaseFirestore>(),
               gh<_i59.FirebaseAuth>(),
             ));
+    gh.lazySingleton<_i854.CatalogProductsRemoteDataSource>(() =>
+        _i854.CatalogProductsRemoteDataSourceImpl(
+            gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i847.GiftsRemoteDataSource>(
         () => _i847.GiftsRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i810.HomeRemoteDataSource>(() =>
         _i810.CategoriesRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()));
+    gh.lazySingleton<_i916.CatalogMatcherRepository>(() =>
+        _i675.CatalogMatcherRepositoryImpl(
+            remoteDataSource: gh<_i854.CatalogProductsRemoteDataSource>()));
     gh.lazySingleton<_i364.ProfileRepository>(
         () => _i256.ProfileRepositoryImpl(gh<_i344.ProfileRemoteDataSource>()));
-    gh.lazySingleton<_i518.WishlistRepository>(() =>
-        _i728.WishlistRepositoryImpl(gh<_i522.WishlistRemoteDataSource>()));
     gh.lazySingleton<_i762.AiRecommendationRepository>(() =>
         _i193.AiRecommendationRepositoryImpl(gh<_i128.AiRemoteDataSource>()));
+    gh.lazySingleton<_i518.WishlistRepository>(() =>
+        _i728.WishlistRepositoryImpl(gh<_i522.WishlistRemoteDataSource>()));
     gh.factory<_i436.AddToWishlistUseCase>(
         () => _i436.AddToWishlistUseCase(gh<_i518.WishlistRepository>()));
     gh.factory<_i516.GetWishlistUseCase>(
@@ -150,6 +166,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i940.CategoryRepositoryImpl(gh<_i810.HomeRemoteDataSource>()));
     gh.lazySingleton<_i1027.GiftRepository>(
         () => _i622.GiftRepositoryImpl(gh<_i847.GiftsRemoteDataSource>()));
+    gh.factory<_i1025.MatchGiftRecommendationsUseCase>(() =>
+        _i1025.MatchGiftRecommendationsUseCase(
+            gh<_i916.CatalogMatcherRepository>()));
     gh.factory<_i692.WishlistCubit>(() => _i692.WishlistCubit(
           gh<_i516.GetWishlistUseCase>(),
           gh<_i436.AddToWishlistUseCase>(),
@@ -166,6 +185,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i834.AiRecommendationCubit(gh<_i923.GetGiftRecommendationsUseCase>()));
     gh.factory<_i104.CategoryCubit>(
         () => _i104.CategoryCubit(gh<_i142.GetCategories>()));
+    gh.factory<_i431.CatalogMatcherCubit>(() => _i431.CatalogMatcherCubit(
+        gh<_i1025.MatchGiftRecommendationsUseCase>()));
     gh.factory<_i1062.GetGiftsByCategoryUseCase>(
         () => _i1062.GetGiftsByCategoryUseCase(gh<_i1027.GiftRepository>()));
     gh.factory<_i798.GetGiftsUseCase>(
