@@ -19,7 +19,7 @@ import 'package:graduation_project/features/cart/presentation/views/cart_view.da
 import 'package:graduation_project/features/home/presentaion/views/home_view.dart';
 import 'package:graduation_project/features/onboarding/presentation/view/onboarding_view.dart';
 import 'package:graduation_project/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package0graduation_project/features/profile/presentation/views/profile_view.dart';
+import 'package:graduation_project/features/profile/presentation/views/profile_view.dart';
 import 'package:graduation_project/features/search/views/search_view.dart';
 import 'package:graduation_project/features/splash/splash_view.dart';
 import 'package:graduation_project/features/wishlist/presentation/views/wishlist_view.dart';

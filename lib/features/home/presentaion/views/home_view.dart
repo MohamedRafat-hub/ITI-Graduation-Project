@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:graduation_project/core/constants/strings_manager.dart';
 import 'package:graduation_project/core/di/di.dart';
-import 'package0graduation_project/core/theme/color_manager.dart';
+import 'package:graduation_project/core/theme/color_manager.dart';
 import 'package:graduation_project/core/theme/values_manager.dart';
 
 import 'package:graduation_project/features/aiFinder/presentation/views/gift_finder_input_page.dart';

@@ -17,6 +17,17 @@ class ProductModel {
     required this.category,
   });
 
+  // factory ProductModel.fromJson(Map<String, dynamic> json) {
+  //   return ProductModel(
+  //     id: json['id'].toString(),
+  //     title: json['name'] ?? json['title'] ?? '',
+  //     description: json['description'] ?? '',
+  //     price: (json['price'] as num?)?.toDouble() ?? 0.0,
+  //     rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+  //     thumbnail: json['img'] ?? json['thumbnail'] ?? '',
+  //     category: json['categoryId'] ?? json['category'] ?? '',
+  //   );
+  // }
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'].toString(),
@@ -24,8 +35,8 @@ class ProductModel {
       description: json['description'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      thumbnail: json['img'] ?? json['thumbnail'] ?? '',
-      category: json['categoryId'] ?? json['category'] ?? '',
+      thumbnail: json['imageUrl'] ?? json['img'] ?? json['thumbnail'] ?? '',
+      category: json['category'] ?? json['categoryId'] ?? '',
     );
   }
 

@@ -18,7 +18,7 @@ class HomeBottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      onTap: onTap,
+      // onTap: onTap,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: ColorManager.primary,
       unselectedItemColor: ColorManager.textSecondary,

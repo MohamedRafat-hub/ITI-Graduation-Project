@@ -15,7 +15,7 @@ abstract class InjectableModule {
 
   @lazySingleton
   GenerativeModel get generativeModel => GenerativeModel(
-    model: 'gemini-1.5-flash-latest',
+    model: 'gemini-3.5-flash',
     apiKey: '',
   );
 }
